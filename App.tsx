@@ -1,20 +1,21 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { NavigationContainer } from "@react-navigation/native";
+import OrderScreen from "./screens/OrderScreen";
+import { SQLiteProvider } from "expo-sqlite/next";
+import migrate from "./utils/migrations";
+import 'react-native-gesture-handler';
+
+const Drawer = createDrawerNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SQLiteProvider databaseName="SliceStack.db" onInit={migrate}>
+      <NavigationContainer>
+        <Drawer.Navigator>
+          <Drawer.Screen name="Orders" component={OrderScreen} />
+          <Drawer.Screen name="Orders2" component={OrderScreen} />
+        </Drawer.Navigator>
+      </NavigationContainer>
+    </SQLiteProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
