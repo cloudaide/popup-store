@@ -13,7 +13,6 @@ export default function App() {
       <NavigationContainer>
         <Drawer.Navigator>
           <Drawer.Screen name="Orders" component={OrderScreen} />
-          <Drawer.Screen name="Orders2" component={OrderScreen} />
         </Drawer.Navigator>
       </NavigationContainer>
     </SQLiteProvider>
