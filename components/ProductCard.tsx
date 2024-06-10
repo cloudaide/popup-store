@@ -11,7 +11,7 @@ interface ProductCardProps {
   productDetails: IProduct;
 }
 
-export default function ProductCard({ imagePath, name, description, price, productDetails }: ProductCardProps) {
+export default function ProductCard({ name, description, price, productDetails }: ProductCardProps) {
   const { addToCart } = useCart();
 
   return (

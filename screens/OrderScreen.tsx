@@ -1,7 +1,5 @@
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import ProductCard from "../components/ProductCard";
-import TransactionItem from "../components/TransactionItem";
 import OrderMenuTab from "../components/OrderMenuTab";
 import { useState } from "react";
 import ICategory from "../types/ICategory";

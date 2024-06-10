@@ -1,9 +1,11 @@
 import useCart from "./useCart";
 import { useSQLiteContext } from "expo-sqlite";
+import useTransactions from "./useTransactions";
 
 export default function useCheckout() {
   const db = useSQLiteContext();
   const { resetCart } = useCart();
+  const { getTransactions } = useTransactions();
   const saveTransaction = async (cart: any, total: any) => {
     const saveTransactionQuery = await db.prepareAsync(
       'INSERT INTO transactions (total) VALUES ($total);'
@@ -33,6 +35,7 @@ export default function useCheckout() {
       await saveTransactionQuery.finalizeAsync();
       await saveTransactionDetailsQuery.finalizeAsync();
       resetCart();
+      await getTransactions();
     }
   }
   return {

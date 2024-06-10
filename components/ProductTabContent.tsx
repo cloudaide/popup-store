@@ -1,4 +1,3 @@
-import { View } from "react-native";
 import ProductCard from "./ProductCard";
 import ICategory from "../types/ICategory";
 import IProduct from "../types/IProduct";

@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
+import { createContext, ReactNode, useState } from "react";
 import IProduct from "../types/IProduct";
 
 export interface CartContextValues {
@@ -10,7 +10,7 @@ export interface CartContextValues {
 export const CartContext = createContext<CartContextValues>({
   cart: [],
   total: 0,
-  addToCart: (product: IProduct, quantity: number) => {},
+  addToCart: () => {},
   resetCart: () => {},
 });
 
