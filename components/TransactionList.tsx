@@ -1,12 +1,13 @@
-import { ScrollView, Text, View } from "react-native";
+import { Button, ScrollView, Text, View } from "react-native";
 import useCart from "../hooks/useCart";
 import IProduct from "../types/IProduct";
 import TransactionItem from "./TransactionItem";
 import { CartContextValues } from "../providers/CartProvider";
+import useCheckout from "../hooks/useCheckout";
 
 export default function TransactionList() {
   const { cart, total }: CartContextValues = useCart();
-
+  const { saveTransaction } = useCheckout();
   return (
     <View style={{
       width: '30%',
@@ -27,9 +28,18 @@ export default function TransactionList() {
       </ScrollView>
       <View style={{
         flex: 1,
-        justifyContent: 'flex-end',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexDirection: 'row',
       }}>
-        <Text>Total: {total}</Text>
+        <View style={{
+          justifyContent: 'flex-start',
+        }}>
+          <Text>Total: {total}</Text>
+        </View>
+        <View>
+          <Button title="Checkout" onPress={() => saveTransaction(cart, total)}/>
+        </View>
       </View>
     </View>
 
