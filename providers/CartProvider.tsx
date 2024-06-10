@@ -1,23 +1,44 @@
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
 import IProduct from "../types/IProduct";
 
-interface CartContextValues {
+export interface CartContextValues {
   cart: IProduct[] | null | [],
-  addToCart?: (product: IProduct, quantity: number) => void;
+  addToCart: (product: IProduct, quantity: number) => void;
+  total: number;
 }
-export const CartContext = createContext<CartContextValues>({cart: []});
+export const CartContext = createContext<CartContextValues>({ cart: [], total: 0, addToCart: (product: IProduct, quantity: number) => {} });
 
 export default function CartProvider({ children }: { children: ReactNode }) {
-  const [currentOrders, setCurrentOrders] = useState([]);
+  const [currentOrders, setCurrentOrders] = useState<IProduct[] | []>([]);
+  const [totalAmount, setTotalAmount] = useState<number>(0);
 
   const addToCart = (product: IProduct, quantity: number) => {
-    setCurrentOrders([])
+    const newCart: IProduct[] = [
+      ...currentOrders,
+    ];
+    const inCart = newCart?.findIndex((existingProduct: IProduct) => existingProduct?.id === product.id);
+
+    if (inCart >= 0) {
+      const currentQty = newCart[inCart]?.quantity || 0;
+      newCart[inCart].quantity = currentQty + quantity;
+    } else {
+      newCart.push({
+        ...product,
+        quantity,
+      });
+    }
+
+    const currentCost = product?.price * quantity;
+
+    setTotalAmount(totalAmount + currentCost);
+    setCurrentOrders(newCart);
   };
   
   return (
     <CartContext.Provider value={{
       cart: currentOrders,
-      addToCart: addToCart
+      addToCart: addToCart,
+      total: totalAmount,
     }}>
       {children}
     </CartContext.Provider>

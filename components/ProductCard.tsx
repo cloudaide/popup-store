@@ -1,17 +1,18 @@
 import { Image, View, Text } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import useCart from "../hooks/useCart";
+import IProduct from "../types/IProduct";
 
 interface ProductCardProps {
   imagePath: string;
   name: string;
   description: string;
   price: number;
+  productDetails: IProduct;
 }
 
-export default function ProductCard({ imagePath, name, description, price }: ProductCardProps) {
-  const cart = useCart();
-  console.log(cart);
+export default function ProductCard({ imagePath, name, description, price, productDetails }: ProductCardProps) {
+  const { addToCart } = useCart();
 
   return (
     <View
@@ -23,7 +24,9 @@ export default function ProductCard({ imagePath, name, description, price }: Pro
         aspectRatio: '1/1',
       }}
     >
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => addToCart(productDetails, 1)}
+      >
         <View style={{
           alignItems: 'center',
         }}>

@@ -7,20 +7,23 @@ import { useState } from "react";
 import ICategory from "../types/ICategory";
 import ProductTabContent from "../components/ProductTabContent";
 import CartProvider from "../providers/CartProvider";
+import TransactionList from "../components/TransactionList";
 
 export default function OrderScreen() {
   const [activeTab, setActiveTab] = useState<Number>(1);
 
   const categories: ICategory[] = [
-    { id: 1, name: 'Pizza', products: [
-      { id: 1, product_name: 'Pepperoni', description: 'Solo Saver 6"', price: 79, category_id: 1 },
-      { id: 2, product_name: 'Hawaiian', description: 'Solo Saver 6"', price: 79, category_id: 1 },
-      { id: 3, product_name: '5 Cheese', description: 'Solo Saver 6"', price: 79, category_id: 1 },
-      { id: 4, product_name: 'Pepperoni', description: 'Classic 10"', price: 229, category_id: 1 },
-      { id: 5, product_name: '6 Cheese', description: 'Classic 10"', price: 229, category_id: 1 },
-      { id: 6, product_name: 'Hawaiian', description: 'Classic 10"', price: 229, category_id: 1 },
-      { id: 7, product_name: 'Bacon and Ham', description: 'Classic 10"', price: 229, category_id: 1 },
-    ]},
+    {
+      id: 1, name: 'Pizza', products: [
+        { id: 1, product_name: 'Pepperoni', description: 'Solo Saver 6"', price: 79, category_id: 1 },
+        { id: 2, product_name: 'Hawaiian', description: 'Solo Saver 6"', price: 79, category_id: 1 },
+        { id: 3, product_name: '5 Cheese', description: 'Solo Saver 6"', price: 79, category_id: 1 },
+        { id: 4, product_name: 'Pepperoni', description: 'Classic 10"', price: 229, category_id: 1 },
+        { id: 5, product_name: '6 Cheese', description: 'Classic 10"', price: 229, category_id: 1 },
+        { id: 6, product_name: 'Hawaiian', description: 'Classic 10"', price: 229, category_id: 1 },
+        { id: 7, product_name: 'Bacon and Ham', description: 'Classic 10"', price: 229, category_id: 1 },
+      ]
+    },
     { id: 2, name: 'Fries', products: [
       { id: 8, product_name: 'Sour Cream', description: 'Medium', price: 59, category_id: 2 },
       { id: 9, product_name: 'Sour Cream', description: 'Large', price: 89, category_id: 2 },
@@ -69,7 +72,6 @@ export default function OrderScreen() {
     setActiveTab(id);
   }
 
-
   return (
     <SafeAreaView style={{
       flexDirection: 'column',
@@ -78,7 +80,6 @@ export default function OrderScreen() {
         <View style={{
           marginVertical: 10,
           flexDirection: 'row',
-          flexGrow: 1,
         }}>
           { categories?.map((category) => (
             <OrderMenuTab key={`category-${category.id}`} categoryName={category.name} onPress={handlePress} id={category.id} active={activeTab === category.id}/>
@@ -87,35 +88,19 @@ export default function OrderScreen() {
         <View
           style={{
             flexDirection: 'row',
+            height: '100%',
           }}
         >
           <ScrollView
             style={{
               width: '70%',
+
             }}
-            contentContainerStyle={{flexDirection: "row", flexWrap: "wrap", paddingBottom: 170, }}
+            contentContainerStyle={{flexDirection: "row", flexWrap: "wrap", paddingBottom: 50, }}
           >
             <ProductTabContent category={categories?.find((cat) => cat.id === activeTab)} />
           </ScrollView>
-          <View style={{
-            width: '30%',
-            marginLeft: 10,
-            backgroundColor: 'white',
-            padding: 22,
-            marginTop: 5,
-          }}>
-            <ScrollView style={{
-              height: '80%',
-            }}>
-              <TransactionItem productInfo={categories[0].products[0]} quantity={1} />
-            </ScrollView>
-            <View style={{
-              flex: 1,
-              justifyContent: 'flex-end',
-            }}>
-              <Text>Total: 110</Text>
-            </View>
-          </View>
+          <TransactionList />
         </View>
       </CartProvider>
     </SafeAreaView>

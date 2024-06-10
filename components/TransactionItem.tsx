@@ -8,6 +8,7 @@ interface TransactionItemProps {
 
 export default function TransactionItem({ productInfo, quantity }: TransactionItemProps) {
   const totalPrice: number =  quantity * productInfo.price;
+
   return (
     <View style={{
       flexDirection: 'row',

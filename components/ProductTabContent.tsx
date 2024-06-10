@@ -11,7 +11,13 @@ export default function ProductTabContent({ category }: ProductTabContentProps) 
   return (
     <>
       {category?.products.map((product: IProduct) => (
-        <ProductCard key={`product-${product.id}`} price={product?.price} imagePath="" name={product?.product_name} description={product?.description} />
+        <ProductCard
+          key={`product-${product.id}`}
+          price={product?.price}
+          imagePath=""
+          name={product?.product_name}
+          description={product?.description}
+          productDetails={product} />
       ))}
     </>
   );
