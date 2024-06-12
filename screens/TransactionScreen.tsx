@@ -1,8 +1,7 @@
-import { ActivityIndicator, FlatList, StyleSheet, View, Text, ScrollView } from 'react-native';
+import { ActivityIndicator, FlatList, StyleSheet, View, Text } from 'react-native';
 import useTransactions from "../hooks/useTransactions";
-import { format } from 'date-fns';
 import TransactionInfoListItem from "../components/TransactionInfoListItem";
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 
 export default function TransactionScreen() {

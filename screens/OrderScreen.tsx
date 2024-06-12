@@ -1,4 +1,4 @@
-import { ScrollView, View } from "react-native";
+import { Dimensions, ScrollView, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import OrderMenuTab from "../components/OrderMenuTab";
 import { useState } from "react";
@@ -71,36 +71,44 @@ export default function OrderScreen() {
   }
 
   return (
-    <SafeAreaView style={{
+    <View style={{
       flexDirection: 'column',
+      paddingTop: 0,
     }}>
       <CartProvider>
         <View style={{
-          marginVertical: 10,
           flexDirection: 'row',
+          height: '100%',
+          marginTop: 0,
         }}>
-          { categories?.map((category) => (
-            <OrderMenuTab key={`category-${category.id}`} categoryName={category.name} onPress={handlePress} id={category.id} active={activeTab === category.id}/>
-          ))}
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            height: '100%',
-          }}
-        >
-          <ScrollView
-            style={{
-              width: '70%',
-
-            }}
-            contentContainerStyle={{flexDirection: "row", flexWrap: "wrap", paddingBottom: 50, }}
-          >
-            <ProductTabContent category={categories?.find((cat) => cat.id === activeTab)} />
-          </ScrollView>
+          <View style={{
+            width: '70%',
+          }}>
+            <View style={{
+              marginBottom: 10,
+              flexDirection: 'row',
+              paddingTop: 10,
+            }}>
+              { categories?.map((category) => (
+                <OrderMenuTab key={`category-${category.id}`} categoryName={category.name} onPress={handlePress} id={category.id} active={activeTab === category.id}/>
+              ))}
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                height: '90%',
+              }}
+            >
+              <ScrollView
+                contentContainerStyle={{flexDirection: "row", flexWrap: "wrap", paddingBottom: 25, }}
+              >
+                <ProductTabContent category={categories?.find((cat) => cat.id === activeTab)} />
+              </ScrollView>
+            </View>
+          </View>
           <TransactionList />
         </View>
       </CartProvider>
-    </SafeAreaView>
+    </View>
   );
 }

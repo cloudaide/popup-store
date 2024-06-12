@@ -20,7 +20,7 @@ export default function OrderMenuTab({ id, categoryName, active, onPress }: Orde
       onPress={() => onPress(id)}
     >
       <Text style={{
-        fontSize: 22,
+        fontSize: 14,
         color: active ? '#F3F7EC' : '#F3F7EC'
       }}>{categoryName}</Text>
     </TouchableOpacity>

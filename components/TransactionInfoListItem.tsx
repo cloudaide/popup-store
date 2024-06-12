@@ -24,11 +24,11 @@ const styles = StyleSheet.create({
   },
   textContent: {
     color: '#FFFFFF',
-    fontSize: 17,
+    fontSize: 14,
   },
   priceContent: {
     color: '#FFFFFF',
-    fontSize: 17,
+    fontSize: 14,
     width: 200,
   }
 

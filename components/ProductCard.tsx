@@ -18,9 +18,9 @@ export default function ProductCard({ name, description, price, productDetails }
     <View
       style={{
         margin: 5,
-        padding: 20,
+        padding: 10,
         backgroundColor: 'white',
-        width: '23%',
+        width: '18%',
         aspectRatio: '1/1',
       }}
     >
@@ -31,8 +31,8 @@ export default function ProductCard({ name, description, price, productDetails }
           alignItems: 'center',
         }}>
           <Image source={require('../assets/pepperoni.png')} style={{
-            width: '80%',
-            height: '80%',
+            width: '70%',
+            height: '70%',
             resizeMode: 'contain',
           }}/>
         </View>
@@ -44,16 +44,20 @@ export default function ProductCard({ name, description, price, productDetails }
               width: '80%',
             }}
           >
-            <Text>
+            <Text style={{
+              fontSize: 10,
+            }}>
               {description}
             </Text>
-            <Text>
+            <Text style={{
+              fontSize: 10,
+            }}>
               {name}
             </Text>
           </View>
           <View>
             <Text style={{
-              fontSize: 26
+              fontSize: 14
             }}>
               {price.toString()}
             </Text>
