@@ -39,6 +39,8 @@ export default async function migrate(db: SQLiteDatabase) {
       CREATE TABLE IF NOT EXISTS transactions (
         id INTEGER PRIMARY KEY NOT NULL,
         total DOUBLE NOT NULL,
+        payment_method VARCHAR(100) NOT NULL,
+        payment_amount DOUBLE NOT NULL,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
       );
@@ -53,6 +55,10 @@ export default async function migrate(db: SQLiteDatabase) {
       );
     `);
     currentDbVersion = 1;
+  }
+
+  if (currentDbVersion === 1) {
+    currentDbVersion = 2;
   }
   await db.execAsync(`PRAGMA user_version = ${DATABASE_VERSION}`);
 }

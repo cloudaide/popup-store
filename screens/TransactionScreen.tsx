@@ -1,14 +1,29 @@
-import { ActivityIndicator, FlatList, StyleSheet, View, Text } from 'react-native';
+import { ActivityIndicator, FlatList, StyleSheet, View, Text, Modal, Button } from 'react-native';
 import useTransactions from "../hooks/useTransactions";
 import TransactionInfoListItem from "../components/TransactionInfoListItem";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
+import { ITransactionDetails } from "../types/ITransactions";
 
 export default function TransactionScreen() {
-  const { transactions, getTransactions } = useTransactions();
+  const { transactions, getTransactions, getTransactionProducts } = useTransactions();
+  const [selectedProducts, setSelectedProducts] = useState<ITransactionDetails[] | unknown[]>([]);
+  const [showModal, setShowModal] = useState(false);
+
+  const handleTransactionPress = async (id: number) => {
+    const products = await getTransactionProducts(id);
+
+    if (products) {
+      console.log(products);
+      setSelectedProducts(products);
+    }
+    setShowModal(true);
+  }
+
   useFocusEffect(useCallback(() => {
     getTransactions().catch((e) => console.log(e));
   }, [getTransactions]));
+
   if (!transactions.length) {
     return <ActivityIndicator/>
   }
@@ -32,10 +47,53 @@ export default function TransactionScreen() {
         }}
         data={transactions}
         renderItem={({ item }) => {
-        return (
-          <TransactionInfoListItem item={item} />
-        );
-      }} />
+          return (
+            <TransactionInfoListItem item={item} handlePress={() => handleTransactionPress(item.id)}/>
+          );
+        }
+      } />
+      <Modal
+        animationType="slide"
+        visible={showModal}
+      >
+        <View>
+          <Button title="Close" onPress={() => setShowModal(false)}/>
+          <FlatList data={selectedProducts} renderItem={
+            ({ item }) => {
+              console.log(item);
+              return (
+                <View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 10 }}>
+                  <View style={{ flex: 1 }}>
+                    <Text>
+                      {item?.description}
+                    </Text>
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <Text>
+                      {item?.product_name}
+                    </Text>
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <Text>
+                      {item?.quantity}
+                    </Text>
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <Text>
+                      {item?.unit_price}
+                    </Text>
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <Text>
+                      {item?.total_price}
+                    </Text>
+                  </View>
+                </View>
+              );
+            }
+          } />
+        </View>
+      </Modal>
     </View>
   );
 }

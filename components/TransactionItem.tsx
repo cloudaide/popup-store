@@ -29,11 +29,22 @@ export default function TransactionItem({ productInfo, quantity, handleDelete }:
       </View>
     );
   };
+  const renderLeftActions = (
+    progress: Animated.AnimatedInterpolation<any>,
+    dragAnimatedValue: Animated.AnimatedInterpolation<any>,
+  ) => {
+    return (
+      <View>
+
+      </View>
+    );
+  }
   return (
     <Swipeable
       renderRightActions={renderRightActions}
+      renderLeftActions={renderLeftActions}
       childrenContainerStyle={{
-        marginVertical: 12,
+        marginVertical: 5,
         backgroundColor: '#efefefe',
         padding: 5,
         borderRadius: 5,
@@ -42,6 +53,8 @@ export default function TransactionItem({ productInfo, quantity, handleDelete }:
       <View
         style={{
           flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
       >
         <Text style={{
@@ -53,7 +66,8 @@ export default function TransactionItem({ productInfo, quantity, handleDelete }:
         <Text style={{
           marginRight: 10,
           fontSize: 12,
-          fontWeight: 'ultralight'
+          fontWeight: 'ultralight',
+          maxWidth: '70%'
         }}>{productInfo?.description} - {productInfo?.product_name}</Text>
         <Text style={{
           fontSize: 12,

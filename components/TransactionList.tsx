@@ -1,16 +1,23 @@
-import { Button, ScrollView, Text, View, ToastAndroid } from "react-native";
+import { Button, ScrollView, Text, View, ToastAndroid, Pressable, Switch } from "react-native";
 import useCart from "../hooks/useCart";
 import IProduct from "../types/IProduct";
 import TransactionItem from "./TransactionItem";
 import { CartContextValues } from "../providers/CartProvider";
 import useCheckout from "../hooks/useCheckout";
+import { useState } from "react";
 
 export default function TransactionList() {
   const { cart, total, removeFromCart }: CartContextValues = useCart();
+  const [paymentMethod, setPaymentMethod] = useState(false);
   const { saveTransaction } = useCheckout();
   const handleCheckout = async () => {
-    await saveTransaction(cart, total);
+    await saveTransaction(cart, total, paymentMethod ? 'GCash' : 'Cash');
     ToastAndroid.show('Order successful', ToastAndroid.LONG);
+    setPaymentMethod(false);
+  }
+
+  const toggleSwitch = () => {
+    setPaymentMethod(!paymentMethod);
   }
 
   return (
@@ -23,7 +30,7 @@ export default function TransactionList() {
       alignSelf: 'flex-start',
     }}>
       <ScrollView style={{
-        height: '80%',
+        height: '70%',
       }}>
         { cart?.map((product: IProduct) => (
             <TransactionItem
@@ -37,6 +44,29 @@ export default function TransactionList() {
       </ScrollView>
       <View style={{
         flex: 1,
+        flexGrow: 1,
+        alignItems: 'center',
+        flexDirection: 'row',
+      }}>
+        <View style={{
+          flex: 1,
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+          <Text>Cash</Text>
+          <Switch
+            trackColor={{false: '#767577', true: '#81b0ff'}}
+            thumbColor={paymentMethod ? '#f5dd4b' : '#f4f3f4'}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={toggleSwitch}
+            value={paymentMethod}
+          />
+          <Text>GCash</Text>
+        </View>
+      </View>
+      <View style={{
+        flex: 1,
         justifyContent: 'space-between',
         alignItems: 'center',
         flexDirection: 'row',
@@ -47,7 +77,7 @@ export default function TransactionList() {
           <Text>Total: {total}</Text>
         </View>
         <View>
-          <Button title="Checkout" onPress={handleCheckout}/>
+          <Button title="Checkout" onPress={handleCheckout} disabled={!cart.length}/>
         </View>
       </View>
     </View>

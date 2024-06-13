@@ -1,5 +1,4 @@
-import { Dimensions, ScrollView, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { ScrollView, View } from "react-native";
 import OrderMenuTab from "../components/OrderMenuTab";
 import { useState } from "react";
 import ICategory from "../types/ICategory";
@@ -28,35 +27,11 @@ export default function OrderScreen() {
       { id: 10, product_name: 'Sour Cream', description: 'Jumbo', price: 129, category_id: 2 },
       { id: 11, product_name: 'Sour Cream', description: 'Giant', price: 189, category_id: 2 },
       { id: 12, product_name: 'Sour Cream', description: 'Monster', price: 239, category_id: 2 },
-      { id: 13, product_name: 'Cheese', description: 'Medium', price: 59, category_id: 2 },
-      { id: 14, product_name: 'Cheese', description: 'Large', price: 89, category_id: 2 },
-      { id: 15, product_name: 'Cheese', description: 'Jumbo', price: 129, category_id: 2 },
-      { id: 16, product_name: 'Cheese', description: 'Giant', price: 189, category_id: 2 },
-      { id: 17, product_name: 'Cheese', description: 'Monster', price: 239, category_id: 2 },
-      { id: 18, product_name: 'BBQ', description: 'Medium', price: 59, category_id: 2 },
-      { id: 19, product_name: 'BBQ', description: 'Large', price: 89, category_id: 2 },
-      { id: 20, product_name: 'BBQ', description: 'Jumbo', price: 129, category_id: 2 },
-      { id: 21, product_name: 'BBQ', description: 'Giant', price: 189, category_id: 2 },
-      { id: 22, product_name: 'BBQ', description: 'Monster', price: 239, category_id: 2 },
-      { id: 23, product_name: 'Sweet Corn', description: 'Medium', price: 59, category_id: 2 },
-      { id: 24, product_name: 'Sweet Corn', description: 'Large', price: 89, category_id: 2 },
-      { id: 25, product_name: 'Sweet Corn', description: 'Jumbo', price: 129, category_id: 2 },
-      { id: 26, product_name: 'Sweet Corn', description: 'Giant', price: 189, category_id: 2 },
-      { id: 27, product_name: 'Sweet Corn', description: 'Monster', price: 239, category_id: 2 },
     ]},
     { id: 3, name: 'Cheese Sticks', products: [
       { id: 28, product_name: 'Sour Cream', description: 'Medium', price: 59, category_id: 3 },
       { id: 29, product_name: 'Sour Cream', description: 'Large', price: 89, category_id: 3 },
       { id: 30, product_name: 'Sour Cream', description: 'Jumbo', price: 129, category_id: 3 },
-      { id: 31, product_name: 'Cheese', description: 'Medium', price: 59, category_id: 3 },
-      { id: 32, product_name: 'Cheese', description: 'Large', price: 89, category_id: 3 },
-      { id: 33, product_name: 'Cheese', description: 'Jumbo', price: 129, category_id: 3 },
-      { id: 34, product_name: 'BBQ', description: 'Medium', price: 59, category_id: 3 },
-      { id: 35, product_name: 'BBQ', description: 'Large', price: 89, category_id: 3 },
-      { id: 36, product_name: 'BBQ', description: 'Jumbo', price: 129, category_id: 3 },
-      { id: 37, product_name: 'Sweet Corn', description: 'Medium', price: 59, category_id: 3 },
-      { id: 38, product_name: 'Sweet Corn', description: 'Large', price: 89, category_id: 3 },
-      { id: 39, product_name: 'Sweet Corn', description: 'Jumbo', price: 129, category_id: 3 },
     ]},
     { id: 4, name: 'Drinks', products: [
       { id: 40, product_name: 'Mountain Dew', description: 'Medium', price: 25, category_id: 4 },

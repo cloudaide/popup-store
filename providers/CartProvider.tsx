@@ -1,8 +1,8 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
+import { createContext, ReactNode, useState } from "react";
 import IProduct from "../types/IProduct";
 
 export interface CartContextValues {
-  cart: IProduct[] | null | [],
+  cart: IProduct[] | [],
   addToCart: (product: IProduct, quantity: number) => void;
   total: number;
   resetCart: () => void;
@@ -13,7 +13,7 @@ export const CartContext = createContext<CartContextValues>({
   total: 0,
   addToCart: () => {},
   resetCart: () => {},
-  removeFromCart: (productId: number) => {}
+  removeFromCart: () => {}
 });
 
 export default function CartProvider({ children }: { children: ReactNode }) {

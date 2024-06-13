@@ -7,6 +7,8 @@ import 'react-native-gesture-handler';
 import TransactionScreen from "./screens/TransactionScreen";
 import { useEffect } from "react";
 import { Text } from 'react-native';
+import ProductScreen from "./screens/ProductScreen";
+import DailySales from "./screens/DailySales";
 
 const Drawer = createDrawerNavigator();
 
@@ -18,11 +20,13 @@ export default function App() {
     Text.defaultProps.allowFontScaling = false;
   }, []);
   return (
-    <SQLiteProvider databaseName="SliceStack.db" onInit={migrate}>
+    <SQLiteProvider databaseName="SliceStacks.db" onInit={migrate}>
       <NavigationContainer>
         <Drawer.Navigator>
           <Drawer.Screen name="Orders" component={OrderScreen} />
+          <Drawer.Screen name="Daily Sales" component={DailySales} />
           <Drawer.Screen name="Transactions" component={TransactionScreen} />
+          <Drawer.Screen name="Products" component={ProductScreen} />
         </Drawer.Navigator>
       </NavigationContainer>
     </SQLiteProvider>

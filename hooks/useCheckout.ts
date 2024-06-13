@@ -6,9 +6,9 @@ export default function useCheckout() {
   const db = useSQLiteContext();
   const { resetCart } = useCart();
   const { getTransactions } = useTransactions();
-  const saveTransaction = async (cart: any, total: any) => {
+  const saveTransaction = async (cart: any, total: any, paymentMethod: string) => {
     const saveTransactionQuery = await db.prepareAsync(
-      'INSERT INTO transactions (total) VALUES ($total);'
+      'INSERT INTO transactions (total, payment_method, payment_amount) VALUES ($total, $paymentMethod, 0);'
     );
     const saveTransactionDetailsQuery = await db.prepareAsync(
       'INSERT INTO transaction_details (transaction_id, product_id, unit_price, total_price, quantity) VALUES ($transactionId, $productId, $price, $totalPrice, $quantity)'
@@ -17,6 +17,7 @@ export default function useCheckout() {
     try {
       const newTransaction = await saveTransactionQuery.executeAsync({
         $total: total,
+        $paymentMethod: paymentMethod
       });
       const transactionId = newTransaction.lastInsertRowId;
 
