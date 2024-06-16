@@ -26,6 +26,11 @@
           "initialOrientation": "DEFAULT"
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "f8b23426-9fb3-4d45-91f9-9cda13c1ccc7"
+      }
+    }
   }
 }

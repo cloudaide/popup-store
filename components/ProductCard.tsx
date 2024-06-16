@@ -1,7 +1,7 @@
 import { Image, View, Text } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import useCart from "../hooks/useCart";
-import IProduct from "../types/IProduct";
+import { IProduct } from "../types/IProduct";
 
 interface ProductCardProps {
   imagePath: string;

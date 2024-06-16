@@ -1,5 +1,6 @@
 import { useSQLiteContext } from "expo-sqlite";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function useReport() {
   const db = useSQLiteContext();
@@ -44,9 +45,8 @@ export default function useReport() {
   }
 
   const getDailyTransactionProducts = async () => {
-    try {
-      const products = await db.getAllAsync(`
-        SELECT 
+    const transactionProductAsync = await db.prepareAsync(`
+        SELECT
             transaction_details.product_id,
             transaction_details.unit_price,
             transaction_details.total_price,
@@ -54,22 +54,40 @@ export default function useReport() {
             products.product_name,
             products.description,
             categories.category_name
-        FROM transaction_details 
-        LEFT JOIN products
-        ON products.id = transaction_details.product_id
-        LEFT JOIN categories
-        ON products.category_id = categories.id
-        ORDER BY transaction_details.created_at DESC;
-      `);
+        FROM transaction_details
+                 LEFT JOIN products
+                           ON products.id = transaction_details.product_id
+                 LEFT JOIN categories
+                           ON products.category_id = categories.id
+        WHERE DATE(transaction_details.created_at) = $currentDate
+        ORDER BY transaction_details.created_at DESC;`);
+    try {
+      const currentDate = new Date().toISOString().split('T')[0];
 
+      const transactionResult = await transactionProductAsync.executeAsync({ $currentDate: currentDate });
+      const products = await transactionResult.getAllAsync();
       const productCategories = products.reduce((acc, curr) => {
-        console.log(curr);
+        const categoryObject = acc[curr.category_name];
+        const quantity = categoryObject?.quantity || 0;
+        const totalCost = categoryObject?.total || 0;
+        const totalProducts = categoryObject?.products || [];
+
+        return {
+          ...acc,
+          [curr.category_name]: {
+            quantity: quantity + curr.quantity,
+            total: totalCost + curr?.total_price,
+            products: [...totalProducts, curr],
+          }
+        }
       }, {});
 
       setDailyProducts(products);
       setCategorizedProducts(productCategories);
     } catch (e) {
       console.error(e);
+    } finally {
+      await transactionProductAsync.finalizeAsync();
     }
   };
 
@@ -78,14 +96,20 @@ export default function useReport() {
     await getDailyTransactionProducts();
   }
 
-  useEffect(() => {
-    refetch();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      async function refetchData() {
+        await refetch();
+      }
+      refetchData();
+    }, [])
+  );
 
   return {
     dailyTransactions,
     dailyProducts,
     refetch,
     totalSales,
+    categorizedProducts,
   }
 }

@@ -7,14 +7,13 @@ import { ITransactionDetails } from "../types/ITransactions";
 
 export default function TransactionScreen() {
   const { transactions, getTransactions, getTransactionProducts } = useTransactions();
-  const [selectedProducts, setSelectedProducts] = useState<ITransactionDetails[] | unknown[]>([]);
+  const [selectedProducts, setSelectedProducts] = useState<ITransactionDetails[]>([]);
   const [showModal, setShowModal] = useState(false);
 
   const handleTransactionPress = async (id: number) => {
-    const products = await getTransactionProducts(id);
+    const products: ITransactionDetails[] | undefined = await getTransactionProducts(id);
 
     if (products) {
-      console.log(products);
       setSelectedProducts(products);
     }
     setShowModal(true);
@@ -58,40 +57,41 @@ export default function TransactionScreen() {
       >
         <View>
           <Button title="Close" onPress={() => setShowModal(false)}/>
-          <FlatList data={selectedProducts} renderItem={
-            ({ item }) => {
-              console.log(item);
-              return (
-                <View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 10 }}>
-                  <View style={{ flex: 1 }}>
-                    <Text>
-                      {item?.description}
-                    </Text>
+          {selectedProducts ? (
+            <FlatList data={selectedProducts} renderItem={
+              ({ item }: { item: ITransactionDetails}) => {
+                return (
+                  <View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 10 }}>
+                    <View style={{ flex: 1 }}>
+                      <Text>
+                        {item?.description}
+                      </Text>
+                    </View>
+                    <View style={{ flex: 1 }}>
+                      <Text>
+                        {item?.product_name}
+                      </Text>
+                    </View>
+                    <View style={{ flex: 1 }}>
+                      <Text>
+                        {item?.quantity}
+                      </Text>
+                    </View>
+                    <View style={{ flex: 1 }}>
+                      <Text>
+                        {item?.unit_price}
+                      </Text>
+                    </View>
+                    <View style={{ flex: 1 }}>
+                      <Text>
+                        {item?.total_price}
+                      </Text>
+                    </View>
                   </View>
-                  <View style={{ flex: 1 }}>
-                    <Text>
-                      {item?.product_name}
-                    </Text>
-                  </View>
-                  <View style={{ flex: 1 }}>
-                    <Text>
-                      {item?.quantity}
-                    </Text>
-                  </View>
-                  <View style={{ flex: 1 }}>
-                    <Text>
-                      {item?.unit_price}
-                    </Text>
-                  </View>
-                  <View style={{ flex: 1 }}>
-                    <Text>
-                      {item?.total_price}
-                    </Text>
-                  </View>
-                </View>
-              );
-            }
-          } />
+                );
+              }
+            } />
+          ) : null}
         </View>
       </Modal>
     </View>

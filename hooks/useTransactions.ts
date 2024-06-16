@@ -28,7 +28,7 @@ export default function useTransactions() {
 
   const getTransactionProducts = async (id: number) => {
     try {
-      return await db.getAllAsync(`
+      const products: ITransactionDetails[] = await db.getAllAsync(`
         SELECT 
             transaction_details.product_id,
             transaction_details.unit_price,
@@ -42,6 +42,12 @@ export default function useTransactions() {
         WHERE transaction_details.transaction_id=${id} 
         ORDER BY transaction_details.created_at DESC;
       `);
+
+      if (products?.length) {
+        return products;
+      }
+
+      return [];
     } catch (e) {
       console.error(e);
     }

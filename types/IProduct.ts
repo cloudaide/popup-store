@@ -1,5 +1,5 @@
 
-interface IProduct {
+export interface IProduct {
     id: number;
     product_name: string;
     description: string;
@@ -9,4 +9,6 @@ interface IProduct {
     quantity?: number;
 }
 
-export default IProduct;
+export interface IProductWithCategory extends IProduct{
+    category_name: string;
+}

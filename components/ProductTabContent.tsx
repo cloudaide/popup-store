@@ -1,6 +1,6 @@
 import ProductCard from "./ProductCard";
 import ICategory from "../types/ICategory";
-import IProduct from "../types/IProduct";
+import { IProduct } from "../types/IProduct";
 
 interface ProductTabContentProps {
   category: ICategory | undefined;

@@ -1,4 +1,4 @@
-import IProduct from "./IProduct";
+import { IProduct } from "./IProduct";
 
 export interface ITransactions {
   id: number;
@@ -12,6 +12,7 @@ export interface ITransactionDetails {
   transaction_id: number;
   product_id: number;
   total_price: number;
+  unit_price: number;
   product: IProduct;
   quantity: number;
   product_name?: string;
