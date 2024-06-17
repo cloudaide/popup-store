@@ -32,6 +32,13 @@ export default function AmountInputModal({ showModal, checkoutHandler, total }: 
     }
   }
 
+  const checkoutPress = () => {
+    setAmount('');
+    setCheckoutVisible(false);
+    setCustomerChange(0);
+    checkoutHandler();
+  }
+
   useEffect(() => {
     const newChange = parseInt(amount) - parseInt(String(total));
     setCustomerChange(newChange);
@@ -92,8 +99,7 @@ export default function AmountInputModal({ showModal, checkoutHandler, total }: 
               <Text style={styles.price}>{customerChange.toString()}</Text>
             </View>
           </View>
-
-          <Button onPress={checkoutHandler} title={'Pay'} />
+          <Button onPress={checkoutPress} title={'Pay'} />
         </View>
       )}
     </Modal>
