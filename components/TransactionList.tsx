@@ -1,6 +1,6 @@
-import { Button, ScrollView, Text, View, ToastAndroid, Pressable, Switch } from "react-native";
+import { Button, ScrollView, Text, View, ToastAndroid, Switch } from "react-native";
 import useCart from "../hooks/useCart";
-import IProduct from "../types/IProduct";
+import { IProduct } from "../types/IProduct";
 import TransactionItem from "./TransactionItem";
 import { CartContextValues } from "../providers/CartProvider";
 import useCheckout from "../hooks/useCheckout";
