@@ -1,5 +1,5 @@
 import { StyleSheet, Animated, View, Text } from "react-native";
-import IProduct from "../types/IProduct";
+import { IProduct } from "../types/IProduct";
 import { Swipeable, TouchableOpacity } from "react-native-gesture-handler";
 
 interface TransactionItemProps {

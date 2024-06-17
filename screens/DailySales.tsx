@@ -2,9 +2,13 @@ import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from "react-nat
 import useReport from "../hooks/useReport";
 
 export default function DailySales() {
-  const { dailyTransactions, categorizedProducts, totalSales } = useReport();
+  const {
+    loading,
+    categorizedProducts,
+    totalSales
+  } = useReport();
 
-  if (!dailyTransactions.length) {
+  if (loading) {
     return (
       <View style={{ padding: 10 }}>
         <ActivityIndicator />

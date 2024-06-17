@@ -117,7 +117,7 @@ export default function ProductScreen() {
 
   return (
     <View>
-      <Button title={'Sync'} onPress={syncData}/>
+      <Button title={'Sync'} onPress={() => console.log('a')}/>
       <FlatList data={products} renderItem={({ item }: { item: IProductWithCategory}) => {
         return (
           <View style={{

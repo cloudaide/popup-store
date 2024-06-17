@@ -10,7 +10,7 @@ export default function useReport() {
   const [dailyProducts, setDailyProducts] = useState<any[]>([]);
   const [totalSales, setTotalSales] = useState({ sales: 0, gcash: 0, cash: 0});
   const [categorizedProducts, setCategorizedProducts] = useState<IProductCategories>({});
-
+  const [loading, setLoading] = useState<boolean>(false);
   const isITransactions = (obj: any): obj is ITransactions => {
     return (
       typeof obj.id === 'number' &&
@@ -116,8 +116,10 @@ export default function useReport() {
   };
 
   const refetch = async () => {
+    setLoading(true);
     await getDailyTransactions();
     await getDailyTransactionProducts();
+    setLoading(false);
   }
 
   useFocusEffect(
@@ -135,5 +137,6 @@ export default function useReport() {
     refetch,
     totalSales,
     categorizedProducts,
+    loading,
   }
 }
