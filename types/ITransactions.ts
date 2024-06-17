@@ -19,3 +19,9 @@ export interface ITransactionDetails {
   description?: string;
   extra_info?: string;
 }
+
+export interface ISalesTotal {
+  gcash: number;
+  sales: number;
+  cash: number;
+}

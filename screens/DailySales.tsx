@@ -12,8 +12,6 @@ export default function DailySales() {
     );
   }
 
-  console.log(categorizedProducts);
-
   return (
     <View style={{ padding: 10 }}>
       <View style={styles.totalsContainer}>
@@ -32,7 +30,7 @@ export default function DailySales() {
       </View>
       <ScrollView contentContainerStyle={styles?.categoryContainer}>
         {
-          Object.keys(categorizedProducts)?.map((category) => (
+          Object.keys(categorizedProducts)?.map((category: string) => (
             <View key={`category-pill-${category}`} style={styles.categoryPill}>
               <Text>{category}</Text>
               <Text>Quantity: {categorizedProducts[category]?.quantity}</Text>
