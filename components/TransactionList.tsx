@@ -5,15 +5,22 @@ import TransactionItem from "./TransactionItem";
 import { CartContextValues } from "../providers/CartProvider";
 import useCheckout from "../hooks/useCheckout";
 import { useState } from "react";
+import AmountInputModal from "./AmountInputModal";
 
 export default function TransactionList() {
   const { cart, total, removeFromCart }: CartContextValues = useCart();
   const [paymentMethod, setPaymentMethod] = useState(false);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
   const { saveTransaction } = useCheckout();
   const handleCheckout = async () => {
     await saveTransaction(cart, total, paymentMethod ? 'GCash' : 'Cash');
     ToastAndroid.show('Order successful', ToastAndroid.LONG);
     setPaymentMethod(false);
+    setModalVisible(false);
+  }
+
+  const showModal = () => {
+    setModalVisible(true);
   }
 
   const toggleSwitch = () => {
@@ -77,9 +84,10 @@ export default function TransactionList() {
           <Text>Total: {total}</Text>
         </View>
         <View>
-          <Button title="Checkout" onPress={handleCheckout} disabled={!cart.length}/>
+          <Button title="Checkout" onPress={showModal} disabled={!cart.length}/>
         </View>
       </View>
+      <AmountInputModal total={total} showModal={modalVisible} checkoutHandler={handleCheckout} />
     </View>
   );
 }
