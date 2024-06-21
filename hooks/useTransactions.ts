@@ -35,10 +35,13 @@ export default function useTransactions() {
             transaction_details.total_price,
             transaction_details.quantity,
             products.product_name,
-            products.description
+            products.description,
+            categories.category_name
         FROM transaction_details 
         LEFT JOIN products
         ON products.id = transaction_details.product_id
+        LEFT JOIN categories
+        ON products.category_id = categories.id
         WHERE transaction_details.transaction_id=${id} 
         ORDER BY transaction_details.created_at DESC;
       `);

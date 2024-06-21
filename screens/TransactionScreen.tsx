@@ -64,6 +64,11 @@ export default function TransactionScreen() {
                   <View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 10 }}>
                     <View style={{ flex: 1 }}>
                       <Text>
+                        {item?.category_name}
+                      </Text>
+                    </View>
+                    <View style={{ flex: 1 }}>
+                      <Text>
                         {item?.description}
                       </Text>
                     </View>

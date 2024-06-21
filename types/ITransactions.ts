@@ -18,6 +18,7 @@ export interface ITransactionDetails {
   product_name?: string;
   description?: string;
   extra_info?: string;
+  category_name?: string;
 }
 
 export interface ISalesTotal {
