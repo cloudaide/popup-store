@@ -9,9 +9,10 @@ interface IAmountInputModal {
   showModal: boolean,
   checkoutHandler: () => void;
   total: number;
+  hideModal: () => void;
 }
 
-export default function AmountInputModal({ showModal, checkoutHandler, total }: IAmountInputModal) {
+export default function AmountInputModal({ hideModal, showModal, checkoutHandler, total }: IAmountInputModal) {
   const [amount, setAmount] = useState<string>('');
   const [customerChange, setCustomerChange] = useState<number>(0);
   const [checkoutVisible, setCheckoutVisible] = useState<boolean>(false);
@@ -102,6 +103,7 @@ export default function AmountInputModal({ showModal, checkoutHandler, total }: 
           <Button onPress={checkoutPress} title={'Pay'} />
         </View>
       )}
+      <Button onPress={hideModal} title="Go back" />
     </Modal>
   );
 }

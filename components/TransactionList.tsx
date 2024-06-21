@@ -87,7 +87,7 @@ export default function TransactionList() {
           <Button title="Checkout" onPress={showModal} disabled={!cart.length}/>
         </View>
       </View>
-      <AmountInputModal total={total} showModal={modalVisible} checkoutHandler={handleCheckout} />
+      <AmountInputModal hideModal={() => setModalVisible(false)} total={total} showModal={modalVisible} checkoutHandler={handleCheckout} />
     </View>
   );
 }
