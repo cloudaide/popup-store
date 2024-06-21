@@ -1,10 +1,13 @@
-import { Button, FlatList, Text, View } from 'react-native';
+import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSQLiteContext } from "expo-sqlite";
 import { useEffect, useState } from "react";
 import { IProductWithCategory } from "../types/IProduct";
+import ProductDetailModal from "../components/ProductDetailModal";
 
 export default function ProductScreen() {
   const [products, setProducts] = useState<IProductWithCategory[]>([]);
+  const [modalShown, setModalShown] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<IProductWithCategory | null>(null);
   const db = useSQLiteContext();
 
   const categories = [
@@ -79,7 +82,7 @@ export default function ProductScreen() {
           $categoryName: category.name,
           $iconPath: '/'
         });
-        console.log(newCategory);
+
         for (let product of category.products) {
           const newProduct = await saveProduct.executeAsync({
             $categoryId: newCategory.lastInsertRowId,
@@ -101,7 +104,9 @@ export default function ProductScreen() {
 
   const getProducts = async () => {
     const categories: IProductWithCategory[] = await db.getAllAsync(`
-      SELECT products.id, categories.category_name, products.product_name, products.description, products.price
+      SELECT 
+          products.id, categories.category_name, products.product_name, products.description, products.price, products.category_id,
+          products.extra_info
       FROM categories
       LEFT JOIN products
       ON products.category_id = categories.id;
@@ -109,28 +114,42 @@ export default function ProductScreen() {
     setProducts(categories);
   }
 
+  const handleRowPress = (product: IProductWithCategory) => {
+    setSelectedProduct(product);
+    setModalShown(true);
+  }
+
+  const closeModal = async () => {
+    setModalShown(false);
+    await getProducts();
+  }
+
   useEffect(() => {
     getProducts();
   }, []);
 
-  console.log(products);
-
   return (
     <View>
-      <Button title={'Sync'} onPress={() => console.log('a')}/>
       <FlatList data={products} renderItem={({ item }: { item: IProductWithCategory}) => {
         return (
-          <View style={{
-            flexDirection: 'row',
-            flex: 1,
-            padding: 10,
-          }}>
-            <Text style={{ flex: 1, }}>{item.product_name}</Text>
-            <Text style={{ flex: 1, }}>{item.description}</Text>
-            <Text style={{ flex: 1, }}>{item.category_name}</Text>
+          <View>
+            <Pressable style={styles.rowPressable} onPress={() => handleRowPress(item)}>
+              <Text style={{ flex: 1, }}>{item.product_name}</Text>
+              <Text style={{ flex: 1, }}>{item.description}</Text>
+              <Text style={{ flex: 1, }}>{item.category_name}</Text>
+            </Pressable>
           </View>
         );
       }} />
+      <ProductDetailModal product={selectedProduct} modalShown={modalShown}  closeModal={closeModal}/>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  rowPressable: {
+    flexDirection: 'row',
+    flex: 1,
+    padding: 10,
+  }
+});

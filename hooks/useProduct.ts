@@ -63,16 +63,39 @@ export default function useProduct() {
     setProducts(categories);
   }
 
+  const saveProduct = async (details: { id: number; product_name: string; description: string; extra_info: string; price: string; }) => {
+    try {
+      const result = await db.runAsync(`
+        UPDATE products SET 
+          product_name = ?,
+          description = ?,
+          extra_info = ?,
+          price = ?
+        WHERE id = ?;`, [details?.product_name, details?.description, details?.extra_info, details?.price, details?.id]);
+      if (result.lastInsertRowId) {
+        await refetchData();
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async function refetchData() {
+    await getCategoriesWithProduct();
+  }
+
   useFocusEffect(
     useCallback(() => {
-      async function refetchData() {
+      async function refetchData2() {
         await getCategoriesWithProduct();
       }
-      refetchData();
+      refetchData2();
     }, [])
   );
 
   return {
     products,
+    saveProduct,
+    refetchData,
   }
 }
